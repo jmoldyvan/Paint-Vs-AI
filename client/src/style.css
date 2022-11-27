@@ -68,7 +68,7 @@ input{
   padding-top: 1px;
   padding: 1rem 0rem 5rem 2rem;
 }
-.InfoContainer{
+.mainContainer{
   height: 100vmin;
   display: flex;
   flex-flow: column;
@@ -83,49 +83,6 @@ input{
   background-color: #0c0c0c;
 }
 
-.pokeName{
-  margin-bottom: 0;
-  line-height: 5rem;
-}
-
-.pokePic{
-  width: 100%;
-  border-radius: 5%;
-}
-
-.role{
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 1.7rem;
-  line-height: 1.5rem;
-  text-align: center;
-  color: #F3BF99;
-}
-
-.portfolio{
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 1.5rem;
-  line-height: 150%;
-  text-align: center;
-  color: #F5F5F5;
-}
-
-.pokeNameContainer{
-  display: flex;
-  flex-flow: column;
-  justify-content:center ;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 2.5rem;
-  line-height: 3rem;
-  text-align: center;
-  color: #FFFFFF;
-}
-
 .aboutContainer{
   display: flex;
   flex-flow: column;
@@ -133,10 +90,9 @@ input{
   width: 70%;
 }
 
-
 .footerBar {
   display: flex;
-  justify-content: space-around;
+  justify-content:right;
   align-items: center;
   background-color: #21222A;
   height: 90px;
@@ -152,7 +108,7 @@ input{
   padding: 30px 25px;
 }
 
-.trackGuessBoxContainer{
+.lowerContainer{
   display: flex;
   flex-flow: row;
   justify-content: space-evenly;
@@ -170,9 +126,12 @@ input{
   box-shadow:  0px 0 20px rgb(0, 134, 134);
 }
 
-.nav--icon {
-  height: 46px;
-  margin-right: 7px;
+.foot--icon {
+  height: 30px;
+  margin-right: 15px;
+}
+.foot--icon-right {
+  margin-right: 0px;
 }
 
 .box {
@@ -187,7 +146,7 @@ input{
   
 }
 
-.boxContainer{
+.imageContainer{
   position: absolute;
   margin: 1.5rem 1rem 1.5rem 6rem;
   top: 5.5rem;
