@@ -18,14 +18,16 @@ function App() {
   const [loading, setLoading] = React.useState(true);
   const [deepAIimageState, setDeepAIimageState] = React.useState();
   const [metArtImageState, setMetArtImageState] = React.useState();
+  const [bothImageStateArray, setBothImageStateArray] = React.useState([]);
+
 
 
 
 // function to grab 1 AI generated image
   const deepAIimageFunction = async () => {
     try{
-      const deepAIimage = await deepai.callStandardApi(`${styleArray[randomArrayIndex]}`,{
-        text: `${randomTextArray[random]}`
+      const deepAIimage = await deepai.callStandardApi(`${styleArray[randomArrayIndex(styleArray)]}`,{
+        text: `${randomTextArray[randomArrayIndex(randomTextArray)]}`
       })
 
         setDeepAIimageState(deepAIimage)
@@ -38,7 +40,7 @@ function App() {
   const fetchMetArtImage = async () => {
     try{
       const metArtImagePromise = await Promise.resolve(
-          fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomArtObjectID}`).then((res) => res.json()))  
+          fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomArtObjectID()}`).then((res) => res.json()))  
           
           setMetArtImageState(metArtImagePromise)
 
@@ -52,13 +54,16 @@ function App() {
     return Math.floor(Math.random() * array.length)
   }
   function randomArtObjectID(){
-    return Math.floor(Math.random() * 437133)
+    return Math.floor(Math.random() * 284720)
   }
 
 React.useEffect(() => {
   deepAIimageFunction();
   fetchMetArtImage()
 }, []);
+React.useEffect(() => {
+  //  add random function for the centerinfo to randomly sort the divs
+}, [deepAIimageState]);
 
 // if(loading) {
 //   return <Loading />
