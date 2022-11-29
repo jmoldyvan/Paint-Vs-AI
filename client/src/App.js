@@ -19,6 +19,7 @@ function App() {
   const [deepAIimageState, setDeepAIimageState] = React.useState();
   const [metArtImageState, setMetArtImageState] = React.useState();
   const [bothImageStateArray, setBothImageStateArray] = React.useState([]);
+  const [shuffleBothImageStateArray, setShuffleBothImageStateArray] = React.useState([]);
 
 
 
@@ -57,13 +58,37 @@ function App() {
     return Math.floor(Math.random() * 284720)
   }
 
+  // function to add both state results to the both state
+  function addAIartAndMetArtToBothState(){
+    setBothImageStateArray( prevState =>{
+      return [ 
+      metArtImageState,
+      deepAIimageState 
+    ]})
+
+
+
+  }
+
+  function shuffleArray(bothImageStateArrayProp) {
+    for (let i = bothImageStateArrayProp.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [bothImageStateArrayProp[i], bothImageStateArrayProp[j]] = [bothImageStateArrayProp[j], bothImageStateArrayProp[i]];
+    }
+    setShuffleBothImageStateArray(bothImageStateArrayProp)
+}
+
 React.useEffect(() => {
   deepAIimageFunction();
   fetchMetArtImage()
 }, []);
 React.useEffect(() => {
-  //  add random function for the centerinfo to randomly sort the divs
+  addAIartAndMetArtToBothState()
 }, [deepAIimageState]);
+
+React.useEffect(() => {
+  shuffleArray(bothImageStateArray)
+}, [bothImageStateArray]);
 
 // if(loading) {
 //   return <Loading />
@@ -75,6 +100,8 @@ React.useEffect(() => {
           <div className="content">
             <Nav />
               <CenterInfo 
+                bothImageStateArray = {bothImageStateArray}
+                shuffleBothImageStateArray = {shuffleBothImageStateArray}
                 deepAIimageState = {deepAIimageState}
                 deepAIimageFuntion = {deepAIimageFunction}
                 metArtImageState = {metArtImageState}
