@@ -3,14 +3,13 @@ import { Link } from "react-router-dom";
 
 
 export default function CenterInfo(props) {
-    console.log(props.deepAIimageState);
-    console.log(props.metArtImageState);
-    console.log(props.bothImageStateArray);
-    console.log(props.shuffleBothImageStateArray);
+    // console.log(props.deepAIimageState);
+    // console.log(props.metArtImageState);
+    // console.log(props.bothImageStateArray);
+    // console.log(props.shuffleBothImageStateArray);
 
 
-
-      //  add random function for the centerinfo to randomly sort the divs
+    {if(!props.deepAIimageState)
     return (
         <div>
             <div className="imageContainer">
@@ -20,5 +19,16 @@ export default function CenterInfo(props) {
                 <div></div>
             </div>
         </div>
-    )
+    )}
+    {if(props.deepAIimageState)
+    return (
+        <div>
+        <div className="imageContainer">
+            <div><h1>AI IMAGE RECIEVED</h1></div>
+        </div>
+        <div className="lowerContainer">
+            <div></div>
+        </div>
+    </div>
+    )}
 }

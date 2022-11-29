@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import Footer from "./components/Footer"
 import Nav from "./components/Nav"
 import CenterInfo from "./components/CenterInfo"
@@ -16,8 +17,19 @@ function App() {
   
   // STATES
   const [loading, setLoading] = React.useState(true);
-  const [deepAIimageState, setDeepAIimageState] = React.useState();
-  const [metArtImageState, setMetArtImageState] = React.useState();
+  const [deepAIimageState, setDeepAIimageState] = React.useState({
+    id: '',
+    image:'',
+    artist: 'DeepAI Image Generator',
+  });
+  const [metArtImageState, setMetArtImageState] = React.useState({
+    id: '',
+    image: '',
+    artist: '',
+    year: '',
+    title: '',
+  });
+  const [metArtObjectIDsArrayState, setMetArtObjectIDsArrayState] = React.useState();
   const [bothImageStateArray, setBothImageStateArray] = React.useState([]);
   const [shuffleBothImageStateArray, setShuffleBothImageStateArray] = React.useState([]);
 
@@ -37,13 +49,33 @@ function App() {
       console.log(error)
     }
   }
+
+  const fetchMetArtObjectIDs = async () => {
+    try{
+      const metArtObjectIDsPromise = await Promise.resolve(
+          fetch(`https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q=Paintings/?limit=1000`).then((res) => res.json()))  
+          // console.log(metArtObjectIDsPromise);
+          setMetArtObjectIDsArrayState(metArtObjectIDsPromise)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  console.log(metArtObjectIDsArrayState);
+
   // function to fetch 1 random art image
   const fetchMetArtImage = async () => {
+
     try{
       const metArtImagePromise = await Promise.resolve(
           fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomArtObjectID()}`).then((res) => res.json()))  
-          
-          setMetArtImageState(metArtImagePromise)
+          console.log(metArtImagePromise);
+          setMetArtImageState( prevVal => ({
+            ...prevVal,
+            id: metArtImagePromise.objectID,
+            image: metArtImagePromise.primaryImage,
+            artist: metArtImagePromise
+
+          }))
 
     } catch (error) {
       console.log(error);
@@ -55,36 +87,40 @@ function App() {
     return Math.floor(Math.random() * array.length)
   }
   function randomArtObjectID(){
-    return Math.floor(Math.random() * 284720)
+    let randomIndexNumber = Math.floor(Math.random() * 1000)
+    console.log(randomIndexNumber);
+    console.log(metArtObjectIDsArrayState.objectIDs[randomIndexNumber]);
+    return metArtObjectIDsArrayState.objectIDs[randomIndexNumber]
   }
 
   // function to add both state results to the both state
   function addAIartAndMetArtToBothState(){
     setBothImageStateArray( prevState =>{
       return [ 
-      metArtImageState,
-      deepAIimageState 
+      {metArtImageState},
+      {deepAIimageState} 
     ]})
-
-
-
   }
 
+
   function shuffleArray(bothImageStateArrayProp) {
-    for (let i = bothImageStateArrayProp.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [bothImageStateArrayProp[i], bothImageStateArrayProp[j]] = [bothImageStateArrayProp[j], bothImageStateArrayProp[i]];
-    }
-    setShuffleBothImageStateArray(bothImageStateArrayProp)
+    let bothArray = _.shuffle(bothImageStateArrayProp)
+    setShuffleBothImageStateArray(bothArray)
 }
 
 React.useEffect(() => {
   deepAIimageFunction();
-  fetchMetArtImage()
+  fetchMetArtObjectIDs()
 }, []);
+
 React.useEffect(() => {
   addAIartAndMetArtToBothState()
 }, [deepAIimageState]);
+
+React.useEffect(() => {
+  if(metArtObjectIDsArrayState)
+  fetchMetArtImage()
+}, [metArtObjectIDsArrayState]);
 
 React.useEffect(() => {
   shuffleArray(bothImageStateArray)

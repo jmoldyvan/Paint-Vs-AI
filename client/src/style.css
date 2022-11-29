@@ -155,6 +155,10 @@ input{
 
 }
 
+h1{
+  color: white;
+}
+
 .nodisplay {
   display: none;
   scale: 0 
